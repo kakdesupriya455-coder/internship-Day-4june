@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f4f4f4;
+        padding:20px;
+    }
+
+    .container{
+        max-width:700px;
+        margin:auto;
+        background:white;
+        padding:20px;
+        border-radius:10px;
+        box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2{
+        text-align:center;
+    }
+
+    input{
+        width:70%;
+        padding:10px;
+        font-size:16px;
+    }
+
+    button{
+        padding:10px 15px;
+        background:#007bff;
+        color:white;
+        border:none;
+        cursor:pointer;
+        border-radius:5px;
+    }
+
+    button:hover{
+        background:#0056b3;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+    }
+
+    table, th, td{
+        border:1px solid #ddd;
+    }
+
+    th, td{
+        padding:10px;
+        text-align:center;
+    }
+
+    th{
+        background:#007bff;
+        color:white;
+    }
+
+    .delete-btn{
+        background:red;
+    }
+
+    .delete-btn:hover{
+        background:darkred;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Management System</h2>
+
+    <input type="text" id="studentName" placeholder="Enter Student Name">
+    <button id="addBtn">Add Student</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Student Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody">
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+let students = [];
+
+// Display Students
+function displayStudents() {
+
+    let tableBody = document.getElementById("studentTableBody");
+    tableBody.innerHTML = "";
+
+    students.forEach((student, index) => {
+
+        tableBody.innerHTML += `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${student.name}</td>
+            <td>
+                <button class="delete-btn"
+                onclick="deleteStudent(${student.id})">
+                Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+// Add Student
+document.getElementById("addBtn").addEventListener("click", function(){
+
+    let nameInput = document.getElementById("studentName");
+    let name = nameInput.value.trim();
+
+    if(name === ""){
+        alert("Please enter a student name");
+        return;
+    }
+
+    let student = {
+        id: Date.now(),
+        name: name
+    };
+
+    students.push(student);
+
+    displayStudents();
+
+    nameInput.value = "";
+});
+
+// Delete Student
+function deleteStudent(id){
+
+    students = students.filter(student => student.id !== id);
+
+    displayStudents();
+}
+
+</script>
+
+</body>
+</html>
